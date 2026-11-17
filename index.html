@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Valeria & Santiago · Nuestra boda</title>
+<meta name="theme-color" content="#f7f3ea">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Great+Vibes&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#8c9c7c;--primaryD:#56634b;--accent:#b38b4d;--accentL:#e2c88f;--accentD:#7d5f2c;
+  --ink:#363c30;--muted:#62685a;--bg:#f7f3ea;--paper:#fcfaf5;--flapInk:#f7f1e3;--bloom:#fbf8ef;--bloomS:#d6cab0;
+  --serif:'Cormorant Garamond',Georgia,'Times New Roman',serif;
+  --script:'Great Vibes','Brush Script MT',cursive;
+  --sans:'Jost',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --tex:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --line:color-mix(in srgb,var(--accent) 50%,transparent);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg) var(--tex);color:var(--ink);font-family:var(--serif);font-size:19px;font-weight:500;line-height:1.55;overflow-x:hidden;-webkit-tap-highlight-color:transparent;font-variant-numeric:lining-nums}
+body.locked{overflow:hidden;height:100vh}
+h1,h2,h3,h4,p{margin:0}
+button{font:inherit;color:inherit}
+.eyebrow{font-family:var(--sans);font-weight:500;font-size:.8rem;letter-spacing:.32em;text-transform:uppercase;color:var(--primaryD)}
+.script{font-family:var(--script);font-weight:400}
+#petals{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:55}
+#petals.behind{z-index:0}
+.hero,main{position:relative;z-index:1}
+
+/* ---------- Apertura ---------- */
+.intro{position:fixed;inset:0;z-index:50;background:var(--bg) var(--tex);display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:clamp(20px,4vh,38px);padding:24px;text-align:center;transition:opacity 1.3s ease,visibility 1.3s}
+.intro.out{opacity:0;visibility:hidden}
+.intro-for{font-family:var(--script);font-size:clamp(2.3rem,8vw,3.1rem);color:var(--primaryD);line-height:1.15;margin-top:.1em}
+.gate{position:relative;width:min(72vw,330px,calc(54vh * 5 / 7));aspect-ratio:5/7;perspective:1600px;transition:transform 1.3s ease,opacity 1.3s ease}
+.gate.zoom{transform:scale(1.12);opacity:0}
+.inner{position:absolute;inset:0;background:var(--paper) var(--tex);border:1px solid var(--line);box-shadow:0 34px 60px -30px rgba(0,0,0,.45);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:20px}
+.inner::before{content:'';position:absolute;inset:9px;border:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+.inner-names{font-family:var(--script);font-size:clamp(2rem,8vw,2.7rem);color:var(--primaryD);line-height:1.15}
+.inner-date{font-family:var(--sans);letter-spacing:.3em;font-size:.75rem;color:var(--accentD)}
+.flap{position:absolute;top:0;bottom:0;width:50%;z-index:2;background:var(--primary) var(--tex);
+  box-shadow:inset 0 0 0 9px var(--primary),inset 0 0 0 10px color-mix(in srgb,var(--accentL) 75%,transparent);
+  transition:transform 1.8s cubic-bezier(.65,.05,.25,1)}
+.flap.l{left:0;transform-origin:0 50%}
+.flap.r{right:0;transform-origin:100% 50%;box-shadow:inset 0 0 0 9px var(--primary),inset 0 0 0 10px color-mix(in srgb,var(--accentL) 75%,transparent),-5px 0 10px -6px rgba(0,0,0,.35)}
+.gate.open .flap.l{transform:rotateY(-165deg)}
+.gate.open .flap.r{transform:rotateY(165deg)}
+.flap-deco{position:absolute;left:0;right:0;bottom:13%;text-align:center;backface-visibility:hidden}
+.flap .eyebrow{color:var(--flapInk);font-size:.6rem;letter-spacing:.32em}
+.mono{font-family:var(--script);font-size:2rem;color:var(--flapInk);line-height:1}
+.twine{position:absolute;left:-3%;right:-3%;top:50%;height:0;z-index:3;transition:opacity .8s ease,transform 1s ease}
+.twine i{position:absolute;left:0;right:0;height:1.7px;background:linear-gradient(90deg,var(--accentD),var(--accentL) 25%,var(--accent) 50%,var(--accentL) 75%,var(--accentD));box-shadow:0 1px 1px rgba(0,0,0,.25)}
+.twine i:nth-child(1){transform:rotate(-8deg)}
+.twine i:nth-child(2){transform:translateY(5px) rotate(2deg)}
+.twine i:nth-child(3){transform:rotate(10deg)}
+.gate.untie .twine{opacity:0;transform:translateY(60px) scaleX(.7)}
+.sprig{position:absolute;left:50%;top:9%;width:50%;transform:translateX(-50%) rotate(-10deg);z-index:4;transition:transform 1.1s ease,opacity 1.1s ease;overflow:visible}
+.sprig .stems path{fill:none;stroke:#6f6550;stroke-width:1;stroke-linecap:round}
+.sprig .flowers circle{fill:var(--bloom);stroke:var(--bloomS);stroke-width:.6}
+.gate.untie .sprig{transform:translate(-20%,130%) rotate(-55deg);opacity:0}
+.seal{position:absolute;left:33%;top:50%;width:34%;aspect-ratio:1;margin-top:-17%;z-index:5;border:0;padding:0;background:none;cursor:pointer;
+  filter:drop-shadow(0 6px 7px rgba(0,0,0,.3));-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.seal:focus-visible{outline:2px solid var(--accentD);outline-offset:6px;border-radius:50%}
+.seal .half{position:absolute;inset:0;transition:transform 1.1s cubic-bezier(.5,0,.75,0),opacity 1.1s ease}
+.seal .half svg{width:100%;height:100%;display:block}
+.seal .half.a{clip-path:polygon(0 0,52% 0,46% 22%,55% 41%,46% 61%,54% 79%,49% 100%,0 100%)}
+.seal .half.b{clip-path:polygon(52% 0,100% 0,100% 100%,49% 100%,54% 79%,46% 61%,55% 41%,46% 22%)}
+.seal.shake{animation:sshake .26s}
+.seal.cracked .half.a{transform:translate(-4%,1%) rotate(-4deg)}
+.seal.cracked .half.b{transform:translate(4%,1%) rotate(4deg)}
+@keyframes sshake{25%{transform:translate(-3px,1px) rotate(-3deg)}50%{transform:translate(3px,-1px) rotate(3deg)}75%{transform:translate(-2px,0) rotate(-2deg)}}
+.seal.broken .half.a{transform:translate(-45%,170%) rotate(-38deg);opacity:0}
+.seal.broken .half.b{transform:translate(45%,170%) rotate(34deg);opacity:0}
+.seal .ring{position:absolute;inset:-14%;border-radius:50%;border:2px solid var(--accent);animation:ring 1.9s ease-out infinite;pointer-events:none}
+.seal.broken .ring{display:none}
+@keyframes ring{from{transform:scale(.78);opacity:.9}to{transform:scale(1.3);opacity:0}}
+.intro-hint{font-family:var(--sans);letter-spacing:.28em;text-transform:uppercase;font-size:.8rem;color:var(--primaryD);animation:breathe 2.2s ease-in-out infinite;transition:opacity .5s}
+.intro-hint.hide{opacity:0;animation:none}
+@keyframes breathe{50%{opacity:.45}}
+
+/* ---------- Portada ---------- */
+.hero{position:relative;min-height:100vh;min-height:100svh;display:grid;place-items:center;overflow:hidden;padding:80px 22px 110px;text-align:center}
+.branch{position:absolute;width:clamp(170px,30vw,340px);pointer-events:none;overflow:visible}
+.branch.b1{top:-8px;left:-12px;transform:scaleY(-1)}
+.branch.b2{bottom:-8px;right:-12px;transform:scaleX(-1)}
+.stem{fill:none;stroke:var(--primaryD);stroke-width:1.5;stroke-linecap:round;stroke-dasharray:var(--len);stroke-dashoffset:var(--len)}
+.leafG{transform:scale(0);transition:transform .7s cubic-bezier(.34,1.56,.64,1);transition-delay:var(--d)}
+.leafG ellipse{stroke:var(--primaryD);stroke-width:.7}
+.leafG path{fill:none;stroke:var(--primaryD);stroke-width:.5;opacity:.6}
+.drawn .stem{transition:stroke-dashoffset 2.4s ease;stroke-dashoffset:0}
+.drawn .leafG{transform:scale(1)}
+.hero-in{position:relative;z-index:1;max-width:760px}
+.names{line-height:1;margin:.15em 0 0}
+.names .script{display:block;font-size:clamp(4.2rem,17vw,8.4rem);line-height:1.3;padding:.06em .28em;margin:-.14em 0;
+  background:linear-gradient(100deg,var(--primaryD) 22%,var(--accent) 42%,var(--accentL) 50%,var(--accent) 58%,var(--primaryD) 78%);
+  background-size:260% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 7s linear infinite}
+@keyframes shimmer{from{background-position:100% 0}to{background-position:-160% 0}}
+.amp{display:block;font-family:var(--serif);font-style:italic;font-weight:500;font-size:clamp(2rem,7vw,3.2rem);color:var(--accent);margin:-.05em 0 -.1em}
+.divider{display:block;width:210px;height:20px;margin:16px auto 0;fill:none;stroke:var(--accent);stroke-width:1}
+.divider *{stroke-dasharray:100;stroke-dashoffset:100}
+.hero.go .divider *{transition:stroke-dashoffset 1.8s ease 1.2s;stroke-dashoffset:0}
+.datebox{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:18px;max-width:430px;margin:24px auto 4px}
+.datebox .dl{font-family:var(--sans);text-transform:uppercase;letter-spacing:.28em;font-size:.82rem;font-weight:500;border-top:1px solid var(--accent);border-bottom:1px solid var(--accent);padding:.6em 0;color:var(--primaryD)}
+.datebox .dn{font-size:clamp(3.4rem,11vw,4.6rem);font-weight:600;line-height:1;color:var(--ink)}
+.year{font-family:var(--sans);letter-spacing:.5em;font-size:.95rem;color:var(--accentD);margin:8px 0 22px;padding-left:.5em}
+.phrase{font-style:italic;font-size:clamp(1.18rem,3.7vw,1.4rem);line-height:1.5;max-width:540px;margin:0 auto;color:var(--ink)}
+.ha{opacity:0;transform:translateY(20px);transition:opacity 1.2s ease,transform 1.2s ease;transition-delay:var(--d,0s)}
+.hero.go .ha{opacity:1;transform:none}
+.cue{position:absolute;left:50%;bottom:24px;transform:translateX(-50%);z-index:2;background:none;border:0;cursor:pointer;font-family:var(--sans);font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--primaryD);display:flex;flex-direction:column;align-items:center;gap:8px}
+.cue span{width:1px;height:38px;background:linear-gradient(var(--accent),transparent);animation:cue 1.8s ease-in-out infinite;transform-origin:top}
+@keyframes cue{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+
+/* ---------- Secciones ---------- */
+.sec{position:relative;padding:clamp(72px,11vw,124px) 22px;text-align:center}
+.sec.tint{background:color-mix(in srgb,var(--primary) 14%,var(--bg))}
+.sec-head{margin:0 auto clamp(34px,6vw,56px);max-width:700px}
+.sec-head .script{font-size:clamp(2.7rem,9vw,4.1rem);color:var(--primaryD);line-height:1.12;margin:.12em 0 .05em}
+.sec-head .lead{font-size:clamp(1.12rem,3.4vw,1.3rem);font-style:italic;color:var(--ink);margin-top:10px}
+.orn{display:block;width:140px;height:14px;margin:6px auto 0;fill:none;stroke:var(--accent);stroke-width:1}
+.card{background:var(--paper);border:1px solid var(--line);position:relative}
+.card::before{content:'';position:absolute;inset:7px;border:1px solid color-mix(in srgb,var(--accent) 28%,transparent);pointer-events:none}
+.rv{opacity:0;transform:translateY(28px);transition:opacity 1s ease,transform 1s ease;transition-delay:var(--d,0s)}
+.rv.l{transform:translateX(-34px)}.rv.r{transform:translateX(34px)}.rv.z{transform:scale(.92)}
+.rv.in{opacity:1;transform:none}
+.ic{display:block;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.ic *{stroke-dasharray:100;stroke-dashoffset:100;transition:stroke-dashoffset 1.6s ease;transition-delay:calc(var(--d,0s) + .2s)}
+.in .ic *,.ic.in *{stroke-dashoffset:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6em;font-family:var(--sans);font-weight:500;font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;
+  color:var(--paper);background:var(--primaryD);border:1px solid var(--primaryD);padding:1.05em 1.6em;cursor:pointer;transition:background .3s,border-color .3s,color .3s}
+.btn:hover,.btn:focus-visible{background:var(--accentD);border-color:var(--accentD);color:#fff;outline:none}
+.btn.ghost{background:transparent;color:var(--primaryD)}
+.btn.ghost:hover,.btn.ghost:focus-visible{background:var(--primaryD);color:var(--paper)}
+.btns{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:22px}
+
+/* Pase */
+.pass-sec{padding-top:10px}
+.ticket{display:flex;max-width:560px;margin:0 auto;text-align:left;box-shadow:0 22px 44px -26px rgba(0,0,0,.4)}
+.ticket::after{content:'';position:absolute;right:122px;top:-12px;bottom:-12px;width:24px;background:radial-gradient(circle at 50% 0,var(--bg) 11px,transparent 12px),radial-gradient(circle at 50% 100%,var(--bg) 11px,transparent 12px)}
+.t-left{flex:1;padding:28px 26px;border-right:2px dashed var(--line)}
+.t-name{font-family:var(--script);font-size:clamp(2.1rem,7vw,2.8rem);color:var(--primaryD);line-height:1.15;margin-top:4px}
+.t-note{font-style:italic;font-size:1.05rem;color:var(--muted);margin-top:4px}
+.t-right{width:134px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:color-mix(in srgb,var(--primary) 16%,var(--paper))}
+.t-num{font-size:3.2rem;font-weight:600;line-height:1;color:var(--accentD)}
+
+/* Cuenta regresiva */
+.count{display:flex;justify-content:center;gap:clamp(8px,3vw,26px)}
+.unit{width:clamp(72px,20vw,124px);padding:20px 0 16px}
+.unit .n{display:block;font-size:clamp(2.3rem,8.5vw,3.5rem);font-weight:600;line-height:1;color:var(--primaryD)}
+.unit .n.flip{animation:flip .55s ease}
+@keyframes flip{0%{transform:rotateX(90deg);opacity:0}100%{transform:none;opacity:1}}
+.unit .eyebrow{font-size:.66rem;letter-spacing:.22em;margin-top:8px;display:block}
+.count-note{font-style:italic;font-size:1.2rem;margin-top:26px;color:var(--ink)}
+
+/* Padres y padrinos */
+.parents{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;max-width:780px;margin:0 auto}
+.parents p:not(.eyebrow){font-size:1.35rem;font-weight:600;margin-top:.25em}
+.sub-script{font-family:var(--script);font-size:clamp(2.3rem,7vw,3.1rem);color:var(--primaryD);margin:60px 0 18px}
+.padrinos{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;max-width:940px;margin:0 auto}
+.pcard{padding:24px 16px}
+.pcard p:not(.eyebrow){font-size:1.22rem;font-weight:600;margin-top:.35em}
+
+/* Historia */
+.timeline{position:relative;max-width:880px;margin:0 auto;--p:0}
+.timeline::before,.timeline::after{content:'';position:absolute;left:50%;top:0;width:1px}
+.timeline::before{bottom:0;background:var(--line)}
+.timeline::after{width:2px;margin-left:-.5px;height:calc(var(--p) * 100%);background:var(--accent)}
+.titem{position:relative;width:50%;padding:0 46px 58px;text-align:right}
+.titem:nth-child(even){margin-left:50%;text-align:left}
+.titem .dot{position:absolute;top:10px;right:-10px;width:20px;height:20px;border-radius:50%;background:var(--bg);border:2px solid var(--line);transition:all .5s;z-index:1}
+.titem:nth-child(even) .dot{right:auto;left:-10px}
+.titem.on .dot{background:var(--accent);border-color:var(--accent);box-shadow:0 0 0 7px color-mix(in srgb,var(--accent) 22%,transparent)}
+.titem .yr{font-size:2.5rem;font-weight:600;line-height:1;color:var(--accent)}
+.titem h3{font-family:var(--script);font-weight:400;font-size:2.3rem;color:var(--primaryD);line-height:1.2;margin:.08em 0 .1em}
+.titem p{font-size:1.18rem}
+
+/* Lugares */
+.venues{display:grid;grid-template-columns:repeat(auto-fit,minmax(285px,1fr));gap:26px;max-width:920px;margin:0 auto}
+.vcard{padding:42px 26px 34px}
+.vcard .ic{width:64px;height:64px;margin:0 auto 6px;color:var(--accent)}
+.vcard h3{font-family:var(--script);font-weight:400;font-size:2.5rem;color:var(--primaryD);line-height:1.2}
+.vcard .time{font-family:var(--sans);font-weight:600;letter-spacing:.22em;font-size:1rem;color:var(--accentD);margin:6px 0 10px}
+.vcard .place{font-size:1.38rem;font-weight:700;line-height:1.3}
+.vcard .addr{font-size:1.1rem;color:var(--muted);margin-top:6px}
+
+/* Itinerario */
+.itin{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:30px 12px;max-width:1040px;margin:0 auto;position:relative}
+.istep .circle{width:88px;height:88px;border-radius:50%;margin:0 auto 14px;display:grid;place-items:center;border:1px solid var(--accent);background:var(--paper);color:var(--primaryD);position:relative;z-index:1}
+.istep .ic{width:44px;height:44px}
+.istep .t{font-family:var(--sans);font-weight:600;letter-spacing:.16em;font-size:.95rem;color:var(--accentD)}
+.istep h4{font-size:1.25rem;font-weight:700;line-height:1.25;margin-top:.2em}
+@media (min-width:980px){
+  .itin{grid-template-columns:repeat(6,1fr)}
+  .itin::before{content:'';position:absolute;top:44px;left:8%;right:8%;height:1px;background:var(--line)}
+}
+@media (max-width:620px){
+  .itin{grid-template-columns:1fr;max-width:360px;gap:22px}
+  .itin::before{content:'';position:absolute;left:37px;top:20px;bottom:20px;width:1px;background:var(--line)}
+  .istep{display:grid;grid-template-columns:76px 1fr;gap:18px;align-items:center;text-align:left}
+  .istep .circle{width:74px;height:74px;margin:0}
+}
+
+/* Vestimenta */
+.dress{display:flex;justify-content:center;gap:clamp(30px,8vw,70px);margin-bottom:14px}
+.dress figure{margin:0}
+.dress .ic{width:96px;height:96px;color:var(--primaryD);margin:0 auto}
+.dress figcaption{font-family:var(--sans);letter-spacing:.2em;text-transform:uppercase;font-size:.78rem;margin-top:10px;color:var(--primaryD)}
+.dress-type{font-size:clamp(1.8rem,6vw,2.4rem);font-weight:600;letter-spacing:.06em;margin-top:8px}
+.palette{display:flex;justify-content:center;flex-wrap:wrap;gap:14px;margin:18px 0 6px}
+.chip{width:46px;height:46px;border-radius:50%;border:3px solid var(--paper);box-shadow:0 0 0 1px var(--line),0 6px 12px -6px rgba(0,0,0,.35);transform:scale(0);transition:transform .6s cubic-bezier(.34,1.56,.64,1);transition-delay:var(--d)}
+.in .chip{transform:scale(1)}
+.white-note{font-style:italic;font-size:1.2rem;margin-top:18px}
+
+/* Regalos */
+.gifts{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:24px;max-width:860px;margin:0 auto}
+.gcard{padding:38px 24px 32px}
+.gcard .ic{width:58px;height:58px;margin:0 auto 10px;color:var(--accent)}
+.gcard h3{font-size:1.5rem;font-weight:700;line-height:1.25}
+.gcard p{font-size:1.12rem;color:var(--muted);margin-top:6px}
+.code{display:inline-block;font-family:var(--sans);font-weight:600;letter-spacing:.18em;font-size:1.15rem;color:var(--primaryD);background:color-mix(in srgb,var(--primary) 14%,var(--paper));padding:.5em 1em;margin-top:12px}
+
+/* Hashtag */
+.hashtag{font-size:clamp(2.1rem,8vw,3.6rem);font-weight:600;color:var(--primaryD);word-break:break-word;line-height:1.15}
+
+/* Confirmación */
+.rsvp{max-width:640px;margin:0 auto;padding:clamp(28px,5vw,46px);text-align:left}
+.field{display:block;margin-bottom:24px}
+.field>.eyebrow{display:block;margin-bottom:8px}
+.field input,.field textarea{width:100%;font-family:var(--serif);font-size:1.25rem;font-weight:500;color:var(--ink);background:transparent;border:0;border-bottom:1px solid color-mix(in srgb,var(--primaryD) 50%,transparent);padding:.45em 0;border-radius:0;outline:none;resize:vertical}
+.field input:focus,.field textarea:focus{border-bottom-color:var(--accent)}
+.field input.err{border-bottom-color:#b3452f;animation:sshake .3s}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.choice{font-family:var(--sans);font-weight:500;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;padding:1.05em .6em;border:1px solid var(--primaryD);background:transparent;color:var(--primaryD);cursor:pointer;transition:.3s}
+.choice[aria-pressed="true"]{background:var(--primaryD);color:var(--paper)}
+.stepper{display:flex;align-items:center;gap:16px}
+.stepper button{width:44px;height:44px;border-radius:50%;border:1px solid var(--primaryD);background:transparent;color:var(--primaryD);font-size:1.4rem;line-height:1;cursor:pointer}
+.stepper output{font-size:2rem;font-weight:600;min-width:1.4em;text-align:center}
+.stepper small{font-style:italic;color:var(--muted);font-size:1rem}
+.rsvp .btn{width:100%;margin-top:6px}
+.rsvp-note{text-align:center;font-style:italic;font-size:1.08rem;color:var(--muted);margin-top:16px}
+.adults{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:22px;font-family:var(--sans);font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:var(--primaryD)}
+.adults::before,.adults::after{content:'';width:34px;height:1px;background:var(--accent)}
+
+/* Cierre */
+.foot{padding:clamp(70px,10vw,110px) 22px 90px;text-align:center;background:color-mix(in srgb,var(--primary) 14%,var(--bg))}
+.monogram{width:160px;height:160px;border-radius:50%;border:1px solid var(--accent);display:grid;place-items:center;margin:0 auto 24px;position:relative}
+.monogram::before{content:'';position:absolute;inset:7px;border-radius:50%;border:1px solid color-mix(in srgb,var(--accent) 40%,transparent)}
+.monogram span{font-family:var(--script);font-size:3.2rem;color:var(--primaryD);line-height:1}
+.foot .script.big{font-size:clamp(2.6rem,9vw,4rem);color:var(--primaryD);line-height:1.15}
+.foot .names-s{font-family:var(--sans);letter-spacing:.3em;text-transform:uppercase;font-size:.85rem;margin-top:14px;color:var(--accentD)}
+
+/* Generador */
+.gen{max-width:640px;margin:0 auto;padding:clamp(28px,5vw,46px);text-align:left}
+.gen-out{font-family:var(--sans);font-size:.92rem;word-break:break-all;background:color-mix(in srgb,var(--primary) 12%,var(--paper));padding:14px;margin:6px 0 4px;color:var(--ink)}
+
+/* Avisos */
+.toast{position:fixed;left:50%;bottom:28px;z-index:60;transform:translate(-50%,20px);background:var(--primaryD);color:var(--paper);font-family:var(--sans);font-size:.85rem;letter-spacing:.08em;padding:.9em 1.4em;opacity:0;pointer-events:none;transition:.35s}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media (max-width:700px){
+  body{font-size:18px}
+  .timeline::before,.timeline::after{left:18px}
+  .titem,.titem:nth-child(even){width:100%;margin-left:0;padding:0 0 46px 54px;text-align:left}
+  .titem .dot,.titem:nth-child(even) .dot{left:8px;right:auto}
+  .ticket::after{right:98px}
+  .t-right{width:110px}
+  .t-left{padding:24px 18px}
+  .datebox{gap:10px}
+  .datebox .dl{font-size:.7rem;letter-spacing:.18em}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;transition-delay:0s!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body class="locked">
+<canvas id="petals" aria-hidden="true"></canvas>
+
+<!-- Apertura -->
+<div class="intro" id="intro">
+  <div>
+    <p class="eyebrow">Tienes una invitación</p>
+    <p class="intro-for" id="introFor">especial para ti</p>
+  </div>
+  <div class="gate" id="gate">
+    <div class="inner">
+      <p class="eyebrow">Nos casamos</p>
+      <p class="inner-names" id="innerNames"></p>
+      <p class="inner-date" id="innerDate"></p>
+    </div>
+    <div class="flap l"><div class="flap-deco"><span class="eyebrow">Nuestra boda</span></div></div>
+    <div class="flap r"><div class="flap-deco"><span class="mono" id="flapMono"></span></div></div>
+    <div class="twine"><i></i><i></i><i></i></div>
+    <svg class="sprig" id="sprig" viewBox="0 0 120 160" aria-hidden="true"></svg>
+    <button class="seal" id="seal" aria-label="Toca dos veces el sello para romperlo y abrir la invitación">
+      <span class="half a"></span><span class="half b"></span><span class="ring"></span>
+    </button>
+  </div>
+  <p class="intro-hint" id="introHint">Toca el sello dos veces para abrir</p>
+</div>
+
+<!-- Portada -->
+<header class="hero" id="inicio">
+  <svg class="branch b1" id="br1" aria-hidden="true"></svg>
+  <svg class="branch b2" id="br2" aria-hidden="true"></svg>
+  <div class="hero-in">
+    <p class="eyebrow ha" style="--d:.2s">Nos casamos</p>
+    <h1 class="names" id="names">
+      <span class="script ha" style="--d:.5s" id="n1"></span>
+      <span class="amp ha" style="--d:.9s">&amp;</span>
+      <span class="script ha" style="--d:1.2s" id="n2"></span>
+    </h1>
+    <svg class="divider" viewBox="0 0 240 20" aria-hidden="true"><path pathLength="100" d="M2 10H104"/><path pathLength="100" d="M136 10H238"/><path pathLength="100" d="M120 2l7 8-7 8-7-8z"/></svg>
+    <div class="datebox ha" style="--d:1.6s"><span class="dl" id="dWeek"></span><span class="dn" id="dDay"></span><span class="dl" id="dMonth"></span></div>
+    <p class="year ha" style="--d:1.8s" id="dYear"></p>
+    <p class="phrase ha" style="--d:2.1s" id="phrase"></p>
+  </div>
+  <button class="cue ha" style="--d:2.6s" id="cue">Desliza<span></span></button>
+</header>
+
+<main>
+  <section class="sec pass-sec" id="pase" hidden>
+    <div class="ticket card rv z">
+      <div class="t-left"><p class="eyebrow">Esta invitación es para</p><p class="t-name" id="tName"></p><p class="t-note" id="tNote"></p></div>
+      <div class="t-right"><p class="t-num" id="tNum"></p><p class="eyebrow" id="tLabel">Pases</p></div>
+    </div>
+  </section>
+
+  <section class="sec" id="cuenta">
+    <div class="sec-head rv"><p class="eyebrow">Cuenta regresiva</p><h2 class="script">Solo faltan</h2><svg class="orn" viewBox="0 0 140 14"><path d="M0 7h58M82 7h58M70 1l6 6-6 6-6-6z"/></svg></div>
+    <div class="count rv">
+      <div class="unit card"><span class="n" id="cD">00</span><span class="eyebrow">Días</span></div>
+      <div class="unit card"><span class="n" id="cH">00</span><span class="eyebrow">Horas</span></div>
+      <div class="unit card"><span class="n" id="cM">00</span><span class="eyebrow">Minutos</span></div>
+      <div class="unit card"><span class="n" id="cS">00</span><span class="eyebrow">Segundos</span></div>
+    </div>
+    <p class="count-note rv" id="countNote"></p>
+  </section>
+
+  <section class="sec tint" id="familia">
+    <div class="sec-head rv"><p class="eyebrow">Con la bendición de</p><h2 class="script">Nuestros padres</h2><svg class="orn" viewBox="0 0 140 14"><path d="M0 7h58M82 7h58M70 1l6 6-6 6-6-6z"/></svg></div>
+    <div class="parents" id="parents"></div>
+    <p class="sub-script rv">Nuestros padrinos</p>
+    <div class="padrinos" id="padrinos"></div>
+  </section>
+
+  <section class="sec" id="historia">
+    <div class="sec-head rv"><p class="eyebrow">Nuestra historia</p><h2 class="script">Cómo empezó todo</h2><svg class="orn" viewBox="0 0 140 14"><path d="M0 7h58M82 7h58M70 1l6 6-6 6-6-6z"/></svg></div>
+    <div class="timeline" id="timeline"></div>
+  </section>
+
+  <section class="sec tint" id="lugares">
+    <div class="sec-head rv"><p class="eyebrow">Dónde y cuándo</p><h2 class="script">Te esperamos</h2><svg class="orn" viewBox="0 0 140 14"><path d="M0 7h58M82 7h58M70 1l6 6-6 6-6-6z"/></svg></div>
+    <div class="venues" id="venues"></div>
+    <div class="btns rv"><a class="btn ghost" id="calBtn" target="_blank" rel="noopener">Agregar al calendario</a></div>
+  </section>
+
+  <section class="sec" id="itinerario">
+    <div class="sec-head rv"><p class="eyebrow">Itinerario</p><h2 class="script">Así será el día</h2><svg class="orn" viewBox="0 0 140 14"><path d="M0 7h58M82 7h58M70 1l6 6-6 6-6-6z"/></svg></div>
+    <div class="itin" id="itin"></div>
+  </section>
+
+  <section class="sec tint" id="vestimenta">
+    <div class="sec-head rv"><p class="eyebrow">Código de vestimenta</p><h2 class="script">Luce espectacular</h2><svg class="orn" viewBox="0 0 140 14"><path d="M0 7h58M82 7h58M70 1l6 6-6 6-6-6z"/></svg></div>
+    <div class="rv" id="dress"></div>
+  </section>
+
+  <section class="sec" id="regalos">
+    <div class="sec-head rv"><p class="eyebrow">Mesa de regalos</p><h2 class="script">Detalles con amor</h2><svg class="orn" viewBox="0 0 140 14"><path d="M0 7h58M82 7h58M70 1l6 6-6 6-6-6z"/></svg><p class="lead" id="giftLead"></p></div>
+    <div class="gifts" id="gifts"></div>
+  </section>
+
+  <section class="sec tint" id="fotos">
+    <div class="sec-head rv"><p class="eyebrow">Comparte tus fotos</p><h2 class="script">Momentos juntos</h2><svg class="orn" viewBox="0 0 140 14"><path d="M0 7h58M82 7h58M70 1l6 6-6 6-6-6z"/></svg><p class="lead">Usa nuestro hashtag en tus publicaciones para que podamos ver el día a través de tus ojos.</p></div>
+    <p class="hashtag rv z" id="hashtag"></p>
+    <div class="btns rv"><button class="btn ghost" id="copyTag">Copiar hashtag</button></div>
+  </section>
+
+  <section class="sec" id="confirmar">
+    <div class="sec-head rv"><p class="eyebrow">Confirma tu asistencia</p><h2 class="script">¿Nos acompañas?</h2><svg class="orn" viewBox="0 0 140 14"><path d="M0 7h58M82 7h58M70 1l6 6-6 6-6-6z"/></svg></div>
+    <form class="rsvp card rv" id="rsvp" novalidate>
+      <label class="field"><span class="eyebrow">Tu nombre</span><input id="rName" type="text" autocomplete="name" maxlength="60" placeholder="Nombre y apellido"></label>
+      <div class="field"><span class="eyebrow">¿Asistirás?</span>
+        <div class="choices"><button type="button" class="choice" data-v="si" aria-pressed="true">Sí, ahí estaré</button><button type="button" class="choice" data-v="no" aria-pressed="false">No podré ir</button></div>
+      </div>
+      <div class="field" id="countField"><span class="eyebrow">Número de asistentes</span>
+        <div class="stepper"><button type="button" id="minus" aria-label="Menos">−</button><output id="rCount">1</output><button type="button" id="plus" aria-label="Más">+</button><small id="rMax"></small></div>
+      </div>
+      <label class="field"><span class="eyebrow">Mensaje para los novios (opcional)</span><textarea id="rMsg" rows="3" maxlength="400" placeholder="Escribe tus buenos deseos…"></textarea></label>
+      <a class="btn" id="rsvpBtn" target="_blank" rel="noopener">Confirmar por WhatsApp</a>
+      <p class="rsvp-note" id="rsvpNote"></p>
+      <p class="adults" id="adults" hidden>Evento solo para adultos</p>
+    </form>
+  </section>
+
+  <section class="sec tint" id="generar-pases" hidden>
+    <div class="sec-head"><p class="eyebrow">Solo para los novios</p><h2 class="script">Crea los pases</h2><p class="lead">Escribe el nombre del invitado y sus pases. Se genera un enlace personalizado para enviarlo por WhatsApp.</p></div>
+    <div class="gen card">
+      <label class="field"><span class="eyebrow">Nombre del invitado o familia</span><input id="gName" type="text" placeholder="Familia López Pérez"></label>
+      <div class="field"><span class="eyebrow">Pases</span><div class="stepper"><button type="button" id="gMinus" aria-label="Menos">−</button><output id="gCount">2</output><button type="button" id="gPlus" aria-label="Más">+</button></div></div>
+      <label class="field"><span class="eyebrow">Enlace público de la invitación</span><input id="gBase" type="url" placeholder="https://tu-usuario.github.io/tu-invitacion/"></label>
+      <span class="eyebrow">Enlace personalizado</span>
+      <p class="gen-out" id="gOut">—</p>
+      <div class="btns"><button class="btn ghost" type="button" id="gCopy">Copiar enlace</button><a class="btn" id="gWa" target="_blank" rel="noopener">Enviar por WhatsApp</a></div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <div class="monogram rv z"><span id="footMono"></span></div>
+    <p class="script big rv" id="closing"></p>
+    <p class="names-s rv" id="footNames"></p>
+  </footer>
+</main>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+/* =========================================================
+   DATOS DE LA BODA — edita solo esta sección
+   ========================================================= */
+const CONFIG = {
+  tema: "salvia",                    // "salvia" | "lavanda" | "marino"
+  novia: "Valeria",
+  novio: "Santiago",
+  fecha: "2027-05-15",               // AAAA-MM-DD
+  frase: "Dos caminos que se encontraron para volverse uno solo. Queremos que seas parte del día más especial de nuestra historia.",
+  padresNovia: ["Laura Méndez Ortiz", "Ricardo Fuentes Ibarra"],
+  padresNovio: ["Patricia Salas Vega", "Jorge Herrera Campos"],
+  padrinos: [
+    { rol: "Velación", nombres: "Ana y Rodrigo Castillo" },
+    { rol: "Anillos",  nombres: "Mónica y Luis Prado" },
+    { rol: "Lazo",     nombres: "Gabriela y Andrés Robles" },
+    { rol: "Arras",    nombres: "Carmen y Tomás Aguirre" }
+  ],
+  historia: [
+    { anio: "2018", titulo: "Nos conocimos", texto: "Una tarde de lluvia en la biblioteca de la universidad, compartiendo la última mesa libre." },
+    { anio: "2019", titulo: "Primera cita",  texto: "Un café que se convirtió en una caminata de cinco horas por el centro de la ciudad." },
+    { anio: "2022", titulo: "Nuestro hogar", texto: "Adoptamos a Canela, nuestra perrita, y empezamos a construir una vida juntos." },
+    { anio: "2025", titulo: "Dijo que sí",   texto: "Frente al mar, al atardecer, con un anillo escondido entre las páginas de un libro." },
+    { anio: "2027", titulo: "Nos casamos",   texto: "Y queremos celebrarlo con las personas que más queremos: contigo." }
+  ],
+  ceremonia: { nombre: "Templo de Santa Lucía", hora: "17:00", direccion: "Av. de los Arcos 210, Centro, Guadalajara, Jalisco", mapsUrl: "" },
+  recepcion: { nombre: "Hacienda Los Olivos",   hora: "19:30", direccion: "Camino Real a Tlajomulco km 4, Jalisco", mapsUrl: "" },
+  itinerario: [
+    { hora: "17:00", titulo: "Ceremonia religiosa", icono: "anillos" },
+    { hora: "18:30", titulo: "Fotos y cóctel",      icono: "camara" },
+    { hora: "19:30", titulo: "Recepción",           icono: "copas" },
+    { hora: "20:30", titulo: "Cena",                icono: "cena" },
+    { hora: "21:30", titulo: "Primer baile",        icono: "musica" },
+    { hora: "22:00", titulo: "¡A celebrar!",        icono: "fiesta" }
+  ],
+  vestimenta: { tipo: "Formal", ellos: "Traje", ellas: "Vestido largo",
+                nota: "Con mucho cariño, reservamos el color blanco para la novia.",
+                paleta: ["#8c9c7c", "#c9b28a", "#5e6d52", "#e3d5bd", "#a3786a"] },
+  regalosIntro: "Tu presencia es nuestro mejor regalo. Si deseas tener un detalle con nosotros, aquí te dejamos algunas opciones.",
+  regalos: [
+    { icono: "regalo", titulo: "Liverpool", detalle: "Número de evento", codigo: "51284937" },
+    { icono: "sobre",  titulo: "Lluvia de sobres", detalle: "Habrá un buzón especial el día del evento.", codigo: "" }
+  ],
+  hashtag: "#ValeYSanti2027",
+  confirmarAntes: "2027-04-15",
+  whatsapp: "",                       // opcional: 52 + 10 dígitos. Vacío = el invitado elige el chat
+  pasesPorDefecto: 2,
+  soloAdultos: true,
+  cierre: "Gracias por ser parte de nuestra historia"
+};
+
+const THEMES = {
+  salvia:  {primary:'#8c9c7c',primaryD:'#56634b',accent:'#b38b4d',accentL:'#e2c88f',accentD:'#7d5f2c',ink:'#363c30',muted:'#62685a',bg:'#f7f3ea',paper:'#fcfaf5',flapInk:'#f7f1e3',bloom:'#fbf8ef',bloomS:'#d6cab0',
+            petals:['#efe7d6','#d6dfcb','#f6efe2','#e7d8bd','#c9d4bc']},
+  lavanda: {primary:'#a998c4',primaryD:'#5f4f7c',accent:'#c47c5a',accentL:'#ecb79b',accentD:'#8a4f36',ink:'#3f3550',muted:'#675f73',bg:'#f8f5f1',paper:'#fdfbf8',flapInk:'#fbf7ff',bloom:'#d9cbee',bloomS:'#a993cc',
+            petals:['#efe8f6','#e4d9f0','#f8efe9','#f2dccf','#d9cbee']},
+  marino:  {primary:'#2c3d63',primaryD:'#1d2945',accent:'#b8944f',accentL:'#e8d29a',accentD:'#86672b',ink:'#1f2940',muted:'#585f72',bg:'#f6f3ec',paper:'#fcfaf6',flapInk:'#e8d29a',bloom:'#f4ead2',bloomS:'#cdb98a',
+            petals:['#f1ead9','#e8d29a','#f6f1e6','#dfe3ec','#efe2c2']}
+};
+
+/* ========================================================= */
+const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const p2 = n => String(n).padStart(2, '0');
+const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+function rng(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const T = THEMES[CONFIG.tema] || THEMES.salvia;
+Object.entries(T).forEach(([k, v]) => { if (typeof v === 'string') document.documentElement.style.setProperty('--' + k, v); });
+document.querySelector('meta[name="theme-color"]').content = T.bg;
+
+const toDate = (d, t) => { const [y, m, dd] = d.split('-').map(Number), [h, mi] = (t || '00:00').split(':').map(Number); return new Date(y, m - 1, dd, h, mi); };
+const START = toDate(CONFIG.fecha, CONFIG.ceremonia.hora);
+const fmt = (d, o) => new Intl.DateTimeFormat('es-MX', o).format(d);
+const hora = h => fmt(toDate(CONFIG.fecha, h), {hour:'numeric', minute:'2-digit'});
+const mapsLink = v => v.mapsUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(v.nombre + ', ' + v.direccion)}`;
+
+/* ---------- Íconos de línea ---------- */
+const ICON = {
+  iglesia:'<path d="M24 4v8M20 8h8"/><path d="M13 21l11-9 11 9v21H13z"/><path d="M7 42h34"/><path d="M20 42v-8a4 4 0 0 1 8 0v8"/><circle cx="24" cy="24" r="2.5"/>',
+  hacienda:'<path d="M5 42h38"/><path d="M8 42V21h32v21"/><path d="M5 21L24 9l19 12"/><path d="M14 42v-8a3.5 3.5 0 0 1 7 0v8M27 42v-8a3.5 3.5 0 0 1 7 0v8"/><path d="M21 17h6"/>',
+  anillos:'<circle cx="19" cy="29" r="10"/><circle cx="29" cy="29" r="10"/><path d="M29 10l3.5 3.5L29 18l-3.5-4.5z"/>',
+  copas:'<path d="M12 8h10l-1 10a4 4 0 0 1-8 0z"/><path d="M17 22v14M12 36h10"/><path d="M26 8h10l-1 10a4 4 0 0 1-8 0z"/><path d="M31 22v14M26 36h10"/><path d="M24 4V2M20 5l-1.5-1.5M28 5l1.5-1.5"/>',
+  cena:'<circle cx="25" cy="25" r="12"/><circle cx="25" cy="25" r="7"/><path d="M6 9v9a3 3 0 0 0 3 3v19M9 9v9M12 9v9"/><path d="M42 9c-3 2-4 6-4 12h4v19"/>',
+  musica:'<path d="M18 34V12l20-4v22"/><path d="M18 18l20-4"/><circle cx="14" cy="34" r="4"/><circle cx="34" cy="30" r="4"/>',
+  fiesta:'<path d="M24 5v7M24 36v7M5 24h7M36 24h7M10.5 10.5l5 5M32.5 32.5l5 5M10.5 37.5l5-5M32.5 15.5l5-5"/><circle cx="24" cy="24" r="5"/>',
+  camara:'<path d="M7 16h8l3-5h12l3 5h8v23H7z"/><circle cx="24" cy="27" r="7"/>',
+  regalo:'<path d="M8 17h32v8H8z"/><path d="M10 25h28v17H10z"/><path d="M24 17v25"/><path d="M24 17c-3-8-12-9-11-3 .6 3 11 3 11 3zM24 17c3-8 12-9 11-3-.6 3-11 3-11 3z"/>',
+  sobre:'<path d="M6 12h36v25H6z"/><path d="M6 12l18 14 18-14"/>',
+  traje:'<path d="M17 6l7 9 7-9"/><path d="M17 6l-7 4v32h28V10l-7-4"/><path d="M24 15v27"/><path d="M21 15l3 4 3-4"/>',
+  vestido:'<path d="M19 5c0 4 2 7 5 7s5-3 5-7"/><path d="M19 5l-1 9 3 4-9 25h24l-9-25 3-4-1-9"/><path d="M21 18h6"/>',
+  corazon:'<path d="M24 40S8 30 8 18a8 8 0 0 1 16-3 8 8 0 0 1 16 3c0 12-16 22-16 22z"/>'
+};
+const icon = (n, cls = '') => {
+  const raw = (ICON[n] || ICON.corazon).replace(/<(path|circle)/g, '<$1 pathLength="100"');
+  return `<svg class="ic ${cls}" viewBox="0 0 48 48" aria-hidden="true">${raw}</svg>`;
+};
+
+/* ---------- Botánicos, sello y ramito ---------- */
+const NS = 'http://www.w3.org/2000/svg';
+function makeBranch(svg, seed){
+  svg.setAttribute('viewBox', '0 0 200 200');
+  const r = rng(seed);
+  const stem = document.createElementNS(NS, 'path');
+  stem.setAttribute('d', 'M8 192 C 50 156, 72 124, 98 86 S 150 24, 192 10');
+  stem.setAttribute('class', 'stem'); svg.appendChild(stem);
+  const L = stem.getTotalLength(); stem.style.setProperty('--len', L);
+  const n = 13;
+  for (let i = 0; i < n; i++){
+    const t = (i + .6) / (n + .4), p = stem.getPointAtLength(t * L), q = stem.getPointAtLength(Math.min(L, t * L + 1));
+    const ang = Math.atan2(q.y - p.y, q.x - p.x) * 180 / Math.PI, side = i % 2 ? 1 : -1, s = (1 - t * .45) * (13 + r() * 4);
+    const g = document.createElementNS(NS, 'g');
+    g.setAttribute('transform', `translate(${p.x.toFixed(1)} ${p.y.toFixed(1)}) rotate(${(ang + side * (48 + r() * 18)).toFixed(1)})`);
+    const lf = document.createElementNS(NS, 'g'); lf.setAttribute('class', 'leafG'); lf.style.setProperty('--d', (.25 + t * 1.9).toFixed(2) + 's');
+    const fill = i % 3 === 0 ? 'color-mix(in srgb,var(--primary) 55%,var(--bg))' : 'var(--primary)';
+    lf.innerHTML = `<ellipse cx="${(s * .98).toFixed(1)}" cy="0" rx="${s.toFixed(1)}" ry="${(s * .5).toFixed(1)}" style="fill:${fill};opacity:${(.75 + r() * .25).toFixed(2)}"/><path d="M1 0H${(s * 1.8).toFixed(1)}"/>`;
+    g.appendChild(lf); svg.appendChild(g);
+  }
+}
+function sealSVG(id){
+  const r = rng(7), n = 26, pts = [];
+  for (let i = 0; i < n; i++){ const a = i / n * Math.PI * 2, rad = 45 + (r() - .5) * 5; pts.push([50 + Math.cos(a) * rad, 50 + Math.sin(a) * rad]); }
+  let d = '';
+  pts.forEach((p, i) => {
+    const q = pts[(i + 1) % n];
+    if (i === 0){ const l = pts[n - 1]; d += `M${((l[0] + p[0]) / 2).toFixed(1)} ${((l[1] + p[1]) / 2).toFixed(1)}`; }
+    d += ` Q${p[0].toFixed(1)} ${p[1].toFixed(1)} ${((p[0] + q[0]) / 2).toFixed(1)} ${((p[1] + q[1]) / 2).toFixed(1)}`;
+  });
+  const ini = esc(CONFIG.novia[0] + '&' + CONFIG.novio[0]);
+  return `<svg viewBox="0 0 100 100"><defs><radialGradient id="sg${id}" cx="36%" cy="30%" r="78%">
+    <stop offset="0" style="stop-color:var(--accentL)"/><stop offset=".55" style="stop-color:var(--accent)"/><stop offset="1" style="stop-color:var(--accentD)"/></radialGradient></defs>
+    <path d="${d}Z" fill="url(#sg${id})"/><path d="${d}Z" fill="none" style="stroke:var(--accentD)" stroke-width="1.4" opacity=".45"/>
+    <circle cx="50" cy="50" r="31" fill="none" style="stroke:var(--accentD)" stroke-width="2.2" opacity=".5"/>
+    <circle cx="50" cy="50" r="28" fill="none" style="stroke:var(--accentL)" stroke-width="1" opacity=".7"/>
+    <text x="50" y="57.2" text-anchor="middle" font-family="Great Vibes, cursive" font-size="25" style="fill:var(--accentL)" opacity=".7">${ini}</text>
+    <text x="50" y="58" text-anchor="middle" font-family="Great Vibes, cursive" font-size="25" style="fill:var(--accentD)">${ini}</text></svg>`;
+}
+function sprigSVG(){
+  const r = rng(11), bx = 60, by = 158; let st = '', fl = '';
+  for (let i = 0; i < 10; i++){
+    const tx = 10 + r() * 100, ty = 8 + r() * 74, cx = (bx + tx) / 2 + (r() - .5) * 26, cy = (by + ty) / 2;
+    st += `<path d="M${bx} ${by}Q${cx.toFixed(1)} ${cy.toFixed(1)} ${tx.toFixed(1)} ${ty.toFixed(1)}"/>`;
+    const k = 4 + Math.floor(r() * 5);
+    for (let j = 0; j < k; j++){
+      const fx = tx + (r() - .5) * 15, fy = ty + (r() - .5) * 13;
+      st += `<path d="M${tx.toFixed(1)} ${ty.toFixed(1)}L${fx.toFixed(1)} ${fy.toFixed(1)}"/>`;
+      fl += `<circle cx="${fx.toFixed(1)}" cy="${fy.toFixed(1)}" r="${(1.7 + r() * 1.9).toFixed(1)}"/>`;
+    }
+  }
+  return `<g class="stems">${st}</g><g class="flowers">${fl}</g>`;
+}
+
+/* ---------- Sonido: caja musical con el Canon de Pachelbel (dominio público) ---------- */
+const Snd = {
+  ctx:null,
+  init(){
+    if (this.ctx){ this.ctx.resume && this.ctx.resume(); return; }
+    try{
+      const AC = window.AudioContext || window.webkitAudioContext, c = this.ctx = new AC();
+      this.master = c.createGain(); this.master.gain.value = .9; this.master.connect(c.destination);
+      this.sfx = c.createGain(); this.sfx.gain.value = .6; this.sfx.connect(this.master);
+      this.mus = c.createGain(); this.mus.gain.value = 0; this.mus.connect(this.master);
+      const dl = c.createDelay(); dl.delayTime.value = .36; const fb = c.createGain(); fb.gain.value = .32;
+      const lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 2600; const wet = c.createGain(); wet.gain.value = .35;
+      this.mus.connect(dl); dl.connect(fb); fb.connect(dl); dl.connect(lp); lp.connect(wet); wet.connect(this.master);
+      this.nbuf = c.createBuffer(1, c.sampleRate, c.sampleRate);
+      const d = this.nbuf.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+      c.resume && c.resume();
+    }catch(e){ this.ctx = null; }
+  },
+  note(f, t, dur, type = 'sine', vol = .1, dest, attack = .006){
+    const c = this.ctx, o = c.createOscillator(), g = c.createGain();
+    o.type = type; o.frequency.setValueAtTime(f, t);
+    g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + attack); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+    o.connect(g); g.connect(dest || this.sfx); o.start(t); o.stop(t + dur + .05);
+  },
+  noise(t, dur, vol, freq, type = 'lowpass', q = 1){
+    const c = this.ctx, s = c.createBufferSource(), f = c.createBiquadFilter(), g = c.createGain();
+    s.buffer = this.nbuf; f.type = type; f.frequency.value = freq; f.Q.value = q;
+    g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + .02); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+    s.connect(f); f.connect(g); g.connect(this.sfx); s.start(t, Math.random() * .4); s.stop(t + dur + .05);
+  },
+  crack(){ if (!this.ctx) return; const t = this.ctx.currentTime; this.noise(t, .09, .55, 2600, 'highpass'); this.noise(t + .04, .14, .35, 1100, 'bandpass', 1.2); this.note(120, t, .18, 'sine', .25); },
+  rustle(){ if (!this.ctx) return; const t = this.ctx.currentTime; for (let i = 0; i < 3; i++) this.noise(t + i * .14, .4, .1, 3200 + i * 400, 'bandpass', .6); },
+  chime(){ if (!this.ctx) return; const t = this.ctx.currentTime; [1046.5, 1318.5, 1567.98, 2093].forEach((f, i) => this.note(f, t + i * .13, 2, 'sine', .055)); },
+  soft(){ if (!this.ctx) return; const t = this.ctx.currentTime; this.note(1318.5, t, .4, 'sine', .04); }
+};
+const Music = {
+  on:true, playing:false, timer:null, step:0, next:0, eighth:.42,
+  CH:[[293.66,369.99,440,587.33],[220,277.18,329.63,440],[246.94,293.66,369.99,493.88],[185,220,277.18,369.99],
+      [196,246.94,293.66,392],[293.66,369.99,440,587.33],[196,246.94,293.66,392],[220,277.18,329.63,440]],
+  BASS:[146.83,110,123.47,92.5,98,73.42,98,110],
+  MEL:[739.99,659.25,587.33,554.37,493.88,440,493.88,554.37],
+  MEL2:[587.33,554.37,493.88,440,392,369.99,392,329.63],
+  ARP:[0,1,2,3,2,1,2,3],
+  start(){
+    if (!Snd.ctx || this.timer) return;
+    const c = Snd.ctx; this.playing = true; this.next = c.currentTime + .1;
+    Snd.mus.gain.cancelScheduledValues(c.currentTime); Snd.mus.gain.setTargetAtTime(1, c.currentTime, .6);
+    this.timer = setInterval(() => this.sched(), 50);
+  },
+  stop(){
+    clearInterval(this.timer); this.timer = null; this.playing = false;
+    if (Snd.ctx) Snd.mus.gain.setTargetAtTime(0, Snd.ctx.currentTime, .15);
+  },
+  sched(){ while (this.next < Snd.ctx.currentTime + .3){ this.play(this.step, this.next); this.next += this.eighth; this.step = (this.step + 1) % 64; } },
+  play(s, t){
+    const bar = Math.floor(s / 8), i = s % 8, ch = this.CH[bar], f = ch[this.ARP[i]];
+    Snd.note(f, t, 1.4, 'sine', .045, Snd.mus); Snd.note(f * 2, t, .6, 'sine', .01, Snd.mus);
+    if (i === 0){ Snd.note(this.BASS[bar], t, 3.2, 'triangle', .05, Snd.mus, .02); Snd.note(this.MEL[bar], t, 2.8, 'sine', .055, Snd.mus); Snd.note(this.MEL[bar] * 2, t, 1.2, 'sine', .012, Snd.mus); }
+    if (i === 4) Snd.note(this.MEL2[bar], t, 2.2, 'sine', .04, Snd.mus);
+  }
+};
+
+/* ---------- Pétalos ---------- */
+const Petals = (() => {
+  const c = $('#petals'), x = c.getContext('2d'); let W, H, raf = 0, ambient = false, t = 0; const P = [];
+  function resize(){ const d = Math.min(2, devicePixelRatio || 1); W = innerWidth; H = innerHeight; c.width = W * d; c.height = H * d; x.setTransform(d, 0, 0, d, 0, 0); }
+  function spawn(top){
+    const R = Math.random;
+    P.push({x:R() * W, y:top ? -20 - R() * H * .5 : R() * H, s:top ? 6 + R() * 7 : 5 + R() * 5, vy:top ? 1.3 + R() * 1.4 : .4 + R() * .6, amp:.4 + R() * 1.1, ph:R() * 6.28, fr:.6 + R() * 1.2,
+            rot:R() * 6.28, vr:(R() - .5) * .03, flip:R() * 6.28, vf:.02 + R() * .04, col:T.petals[Math.floor(R() * T.petals.length)], burst:top});
+  }
+  function loop(){
+    t += .016; x.clearRect(0, 0, W, H);
+    for (let i = P.length - 1; i >= 0; i--){
+      const p = P[i];
+      p.y += p.vy; p.x += Math.sin(t * p.fr + p.ph) * p.amp * .6 + .15; p.rot += p.vr; p.flip += p.vf;
+      if (p.y > H + 20){ if (ambient && !p.burst){ p.y = -20; p.x = Math.random() * W; } else { P.splice(i, 1); continue; } }
+      x.save(); x.translate(p.x, p.y); x.rotate(p.rot); x.scale(Math.cos(p.flip), 1);
+      x.fillStyle = p.col; x.globalAlpha = p.burst ? .95 : .8;
+      x.beginPath(); x.ellipse(0, 0, p.s, p.s * .62, 0, 0, Math.PI * 2); x.fill();
+      x.globalAlpha = .45; x.fillStyle = '#fff'; x.beginPath(); x.ellipse(-p.s * .25, -p.s * .15, p.s * .45, p.s * .2, 0, 0, Math.PI * 2); x.fill();
+      x.restore();
+    }
+    x.globalAlpha = 1;
+    raf = (P.length && !document.hidden) ? requestAnimationFrame(loop) : 0;
+  }
+  const kick = () => { if (!raf) raf = requestAnimationFrame(loop); };
+  resize(); addEventListener('resize', resize);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) kick(); });
+  return {
+    burst(n = 40){ if (REDUCE) return; for (let i = 0; i < n; i++) spawn(true); kick(); },
+    ambient(){ if (REDUCE) return; ambient = true; const n = innerWidth < 700 ? 7 : 12; for (let i = 0; i < n; i++) spawn(false); kick(); }
+  };
+})();
+
+/* ---------- Pases personalizados por enlace (#familia-lopez-4) ---------- */
+const SMALL = ['de','del','la','las','los','y','e'];
+const titleCase = s => s.split('-').filter(Boolean).map((w, i) => (i && SMALL.includes(w.toLowerCase())) ? w.toLowerCase() : cap(w.toLowerCase())).join(' ');
+const slug = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+function parsePass(){
+  const h = decodeURIComponent(location.hash.slice(1));
+  if (!h || h === 'generar-pases' || document.getElementById(h)) return null;
+  const m = h.match(/^([a-z0-9-]+?)-(\d{1,2})$/i);
+  if (m) return {name:titleCase(m[1]), pases:Math.max(1, +m[2])};
+  if (/^[a-z0-9-]+$/i.test(h)) return {name:titleCase(h), pases:CONFIG.pasesPorDefecto};
+  return null;
+}
+let PASS = null, maxCount = CONFIG.pasesPorDefecto;
+function applyPass(){
+  PASS = parsePass();
+  const sec = $('#pase');
+  if (!PASS){ sec.hidden = true; $('#introFor').textContent = 'especial para ti'; maxCount = CONFIG.pasesPorDefecto; updateRsvp(); return; }
+  sec.hidden = false;
+  $('#tName').textContent = PASS.name; $('#tNum').textContent = PASS.pases;
+  $('#tLabel').textContent = PASS.pases === 1 ? 'Pase' : 'Pases';
+  $('#tNote').textContent = PASS.pases === 1 ? 'Hemos reservado un lugar en tu honor.' : `Hemos reservado ${PASS.pases} lugares en tu honor.`;
+  $('#introFor').textContent = 'para ' + PASS.name;
+  maxCount = PASS.pases;
+  const rn = $('#rName'); if (!rn.value) rn.value = PASS.name;
+  updateRsvp();
+}
+
+/* ---------- Render de contenido ---------- */
+function render(){
+  const N1 = CONFIG.novia, N2 = CONFIG.novio, ini = `${N1[0]} & ${N2[0]}`;
+  document.title = `${N1} & ${N2} · Nuestra boda`;
+  $('#innerNames').textContent = `${N1} & ${N2}`;
+  $('#innerDate').textContent = `${p2(START.getDate())} · ${p2(START.getMonth() + 1)} · ${START.getFullYear()}`;
+  $('#flapMono').textContent = ini;
+  $('#seal .half.a').innerHTML = sealSVG('a'); $('#seal .half.b').innerHTML = sealSVG('b');
+  $('#sprig').innerHTML = sprigSVG();
+  $('#n1').textContent = N1; $('#n2').textContent = N2;
+  $('#names').setAttribute('aria-label', `${N1} y ${N2}`);
+  $('#dWeek').textContent = fmt(START, {weekday:'long'});
+  $('#dDay').textContent = START.getDate();
+  $('#dMonth').textContent = fmt(START, {month:'long'});
+  $('#dYear').textContent = START.getFullYear();
+  $('#phrase').textContent = CONFIG.frase;
+  makeBranch($('#br1'), 3); makeBranch($('#br2'), 9);
+
+  $('#parents').innerHTML = [['Padres de la novia', CONFIG.padresNovia], ['Padres del novio', CONFIG.padresNovio]]
+    .map(([t, l], i) => `<div class="rv" style="--d:${i * .15}s"><p class="eyebrow">${t}</p>${l.map(n => `<p>${esc(n)}</p>`).join('')}</div>`).join('');
+  $('#padrinos').innerHTML = CONFIG.padrinos.map((p, i) => `<div class="pcard card rv" style="--d:${i * .1}s"><p class="eyebrow">${esc(p.rol)}</p><p>${esc(p.nombres)}</p></div>`).join('');
+
+  $('#timeline').innerHTML = CONFIG.historia.map((h, i) =>
+    `<div class="titem rv ${i % 2 ? 'r' : 'l'}"><span class="dot"></span><p class="yr">${esc(h.anio)}</p><h3>${esc(h.titulo)}</h3><p>${esc(h.texto)}</p></div>`).join('');
+
+  const venue = (v, t, ic, d) => `<div class="vcard card rv" style="--d:${d}s">${icon(ic)}<h3>${t}</h3><p class="time">${esc(hora(v.hora))}</p>
+    <p class="place">${esc(v.nombre)}</p><p class="addr">${esc(v.direccion)}</p>
+    <div class="btns"><a class="btn" href="${mapsLink(v)}" target="_blank" rel="noopener">Cómo llegar</a></div></div>`;
+  $('#venues').innerHTML = venue(CONFIG.ceremonia, 'Ceremonia', 'iglesia', 0) + venue(CONFIG.recepcion, 'Recepción', 'hacienda', .15);
+  const gc = d => `${d.getFullYear()}${p2(d.getMonth() + 1)}${p2(d.getDate())}T${p2(d.getHours())}${p2(d.getMinutes())}00`;
+  const END = new Date(START.getTime() + 9 * 36e5);
+  $('#calBtn').href = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('Boda de ' + N1 + ' & ' + N2)}&dates=${gc(START)}/${gc(END)}&ctz=America/Mexico_City&location=${encodeURIComponent(CONFIG.ceremonia.nombre + ', ' + CONFIG.ceremonia.direccion)}&details=${encodeURIComponent('Recepción: ' + CONFIG.recepcion.nombre + ', ' + CONFIG.recepcion.direccion)}`;
+
+  $('#itin').innerHTML = CONFIG.itinerario.map((s, i) =>
+    `<div class="istep rv" style="--d:${i * .12}s"><div class="circle">${icon(s.icono)}</div><div><p class="t">${esc(hora(s.hora))}</p><h4>${esc(s.titulo)}</h4></div></div>`).join('');
+
+  const v = CONFIG.vestimenta;
+  $('#dress').innerHTML = `<div class="dress"><figure>${icon('traje')}<figcaption>${esc(v.ellos)}</figcaption></figure><figure>${icon('vestido')}<figcaption>${esc(v.ellas)}</figcaption></figure></div>
+    <p class="dress-type">${esc(v.tipo)}</p><p class="eyebrow" style="margin-top:18px">Colores sugeridos</p>
+    <div class="palette">${v.paleta.map((c, i) => `<span class="chip" style="background:${esc(c)};--d:${.3 + i * .1}s"></span>`).join('')}</div>
+    <p class="white-note">${esc(v.nota)}</p>`;
+
+  $('#giftLead').textContent = CONFIG.regalosIntro;
+  $('#gifts').innerHTML = CONFIG.regalos.map((g, i) => `<div class="gcard card rv" style="--d:${i * .15}s">${icon(g.icono)}<h3>${esc(g.titulo)}</h3><p>${esc(g.detalle)}</p>
+    ${g.codigo ? `<span class="code">${esc(g.codigo)}</span><div class="btns"><button class="btn ghost" data-copy="${esc(g.codigo)}">Copiar número</button></div>` : ''}</div>`).join('');
+
+  $('#hashtag').textContent = CONFIG.hashtag;
+  $('#footMono').textContent = ini;
+  $('#closing').textContent = CONFIG.cierre;
+  $('#footNames').textContent = `${N1} & ${N2} · ${p2(START.getDate())}.${p2(START.getMonth() + 1)}.${START.getFullYear()}`;
+  $('#adults').hidden = !CONFIG.soloAdultos;
+  $('#rsvpNote').textContent = `Te agradecemos confirmar antes del ${fmt(toDate(CONFIG.confirmarAntes), {day:'numeric', month:'long', year:'numeric'})}.`;
+}
+
+/* ---------- Cuenta regresiva ---------- */
+function setNum(id, v){ const el = $(id), s = p2(v); if (el.textContent !== s){ el.textContent = s; el.classList.remove('flip'); void el.offsetWidth; el.classList.add('flip'); } }
+let cTimer;
+function tick(){
+  const diff = START - new Date(), note = $('#countNote');
+  if (diff <= 0){ ['#cD','#cH','#cM','#cS'].forEach(i => $(i).textContent = '00'); note.textContent = '¡Hoy es el gran día!'; clearInterval(cTimer); return; }
+  const d = Math.floor(diff / 864e5);
+  setNum('#cD', d); setNum('#cH', Math.floor(diff / 36e5) % 24); setNum('#cM', Math.floor(diff / 6e4) % 60); setNum('#cS', Math.floor(diff / 1e3) % 60);
+  note.textContent = d > 1 ? `para decir “sí, acepto” frente a las personas que más queremos.` : '¡Ya casi llega el gran día!';
+}
+
+/* ---------- Confirmación ---------- */
+let attending = true, count = 1;
+function updateRsvp(){
+  count = Math.min(Math.max(1, count), maxCount);
+  $('#rCount').textContent = count;
+  $('#rMax').textContent = `de ${maxCount} ${maxCount === 1 ? 'pase' : 'pases'}`;
+  $('#countField').style.display = attending ? '' : 'none';
+  const name = $('#rName').value.trim() || '(tu nombre)', msg = $('#rMsg').value.trim();
+  const pareja = `${CONFIG.novia} & ${CONFIG.novio}`;
+  let text = attending
+    ? `¡Hola! Soy ${name}. Con mucha alegría confirmo mi asistencia a la boda de ${pareja} 💍 — asistiremos ${count} ${count === 1 ? 'persona' : 'personas'}.`
+    : `¡Hola! Soy ${name}. Lamentablemente no podré asistir a la boda de ${pareja}, pero les deseo todo el amor del mundo 💛.`;
+  if (msg) text += `\n\nMensaje para los novios: ${msg}`;
+  $('#rsvpBtn').href = CONFIG.whatsapp ? `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(text)}` : `https://wa.me/?text=${encodeURIComponent(text)}`;
+}
+
+/* ---------- Generador de pases ---------- */
+let gCount = 2;
+function updateGen(){
+  const name = $('#gName').value.trim(), base = ($('#gBase').value.trim() || '').split('#')[0];
+  $('#gCount').textContent = gCount;
+  if (!name || !base){ $('#gOut').textContent = 'Escribe el nombre y el enlace público para generar el pase.'; $('#gWa').removeAttribute('href'); return; }
+  const link = `${base}#${slug(name)}-${gCount}`;
+  $('#gOut').textContent = link;
+  const msg = `¡Hola, ${name}! 💍 Con muchísima alegría queremos invitarte a nuestra boda. Abre tu invitación aquí:\n${link}\n\n${CONFIG.novia} & ${CONFIG.novio}`;
+  $('#gWa').href = `https://wa.me/?text=${encodeURIComponent(msg)}`;
+}
+
+/* ---------- Utilidades de interfaz ---------- */
+let toastT;
+function toast(msg){ const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 2200); }
+async function copy(text){
+  try{ await navigator.clipboard.writeText(text); toast('¡Copiado!'); Snd.soft(); }
+  catch(e){ toast('Mantén presionado el texto para copiarlo'); }
+}
+function storyProgress(){
+  const tl = $('#timeline'), r = tl.getBoundingClientRect(), mark = innerHeight * .62;
+  tl.style.setProperty('--p', Math.min(1, Math.max(0, (mark - r.top) / r.height)).toFixed(3));
+  $$('.titem', tl).forEach(it => it.classList.toggle('on', it.getBoundingClientRect().top + 20 < mark));
+}
+
+/* ---------- Apertura ---------- */
+let opened = false, sealTaps = 0;
+function tapSeal(){
+  if (opened) return;
+  Snd.init();                         // el sonido se activa con el primer toque
+  const seal = $('#seal');
+  sealTaps++;
+  seal.classList.remove('shake'); void seal.offsetWidth; seal.classList.add('shake');
+  if (sealTaps === 1){
+    seal.classList.add('cracked'); Snd.crack();
+    $('#introHint').textContent = 'Un toque más';
+    return;
+  }
+  openInvite();
+}
+async function openInvite(){
+  if (opened) return; opened = true;
+  const gate = $('#gate'), seal = $('#seal');
+  $('#introHint').classList.add('hide');
+  Snd.crack();
+  await sleep(REDUCE ? 50 : 280);
+  seal.classList.add('broken');
+  await sleep(REDUCE ? 50 : 380);
+  gate.classList.add('untie'); Snd.rustle();
+  await sleep(REDUCE ? 50 : 520);
+  gate.classList.add('open'); Snd.rustle();
+  await sleep(REDUCE ? 50 : 1350);
+  Snd.chime(); Petals.burst(36);
+  await sleep(REDUCE ? 50 : 1000);
+  gate.classList.add('zoom'); $('#intro').classList.add('out');
+  document.body.classList.remove('locked'); scrollTo(0, 0);
+  startPage();
+  if (Music.on) Music.start();
+}
+function startPage(){
+  $('#inicio').classList.add('go');
+  $$('.branch').forEach(b => b.classList.add('drawn'));
+  Petals.ambient();
+  setTimeout(() => $('#petals').classList.add('behind'), 3200);
+}
+
+/* ---------- Inicio ---------- */
+function setup(){
+  render();
+  applyPass();
+  addEventListener('hashchange', applyPass);
+
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }), {threshold:.15, rootMargin:'0px 0px -6% 0px'});
+  $$('.rv').forEach(el => io.observe(el));
+
+  let sp = false;
+  addEventListener('scroll', () => { if (!sp){ sp = true; requestAnimationFrame(() => { storyProgress(); sp = false; }); } }, {passive:true});
+  storyProgress();
+
+  tick(); cTimer = setInterval(tick, 1000);
+
+  $('#seal').addEventListener('click', tapSeal);
+  $('#cue').addEventListener('click', () => ($('#pase').hidden ? $('#cuenta') : $('#pase')).scrollIntoView({behavior:'smooth'}));
+
+  // Confirmación
+  $$('.choice').forEach(b => b.addEventListener('click', () => {
+    attending = b.dataset.v === 'si';
+    $$('.choice').forEach(x => x.setAttribute('aria-pressed', x === b)); Snd.soft(); updateRsvp();
+  }));
+  $('#minus').addEventListener('click', () => { count--; Snd.soft(); updateRsvp(); });
+  $('#plus').addEventListener('click', () => { count++; Snd.soft(); updateRsvp(); });
+  $('#rName').addEventListener('input', updateRsvp);
+  $('#rMsg').addEventListener('input', updateRsvp);
+  $('#rsvp').addEventListener('submit', e => e.preventDefault());
+  $('#rsvpBtn').addEventListener('click', e => {
+    const rn = $('#rName');
+    if (!rn.value.trim()){ e.preventDefault(); rn.classList.remove('err'); void rn.offsetWidth; rn.classList.add('err'); rn.focus(); toast('Escribe tu nombre para confirmar'); return; }
+    Snd.chime(); Petals.burst(30);
+  });
+  updateRsvp();
+
+  // Copiar
+  $('#copyTag').addEventListener('click', () => copy(CONFIG.hashtag));
+  document.addEventListener('click', e => { const b = e.target.closest('[data-copy]'); if (b) copy(b.dataset.copy); });
+
+  // Música
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden){ if (Music.playing){ Music.stop(); Music.resume = true; } }
+    else if (Music.resume){ Music.resume = false; Music.start(); }
+  });
+
+  // Generador de pases (solo con #generar-pases)
+  if (location.hash === '#generar-pases'){
+    const g = $('#generar-pases'); g.hidden = false;
+    $('#gBase').value = location.href.split('#')[0];
+    ['#gName','#gBase'].forEach(id => $(id).addEventListener('input', updateGen));
+    $('#gMinus').addEventListener('click', () => { gCount = Math.max(1, gCount - 1); updateGen(); });
+    $('#gPlus').addEventListener('click', () => { gCount = Math.min(20, gCount + 1); updateGen(); });
+    $('#gCopy').addEventListener('click', () => { const t = $('#gOut').textContent; if (t.startsWith('http')) copy(t); else toast('Primero completa el nombre y el enlace'); });
+    updateGen();
+    $('#intro').remove(); opened = true; document.body.classList.remove('locked'); startPage();
+    setTimeout(() => g.scrollIntoView({behavior:'smooth'}), 600);
+  }
+}
+setup();
+</script>
+</body>
+</html>
